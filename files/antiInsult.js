@@ -17,7 +17,7 @@ module.exports = async (message, client, config, Discord, prefix) => {
             };
         };
     
-    const code = message.content.split("discord.com/invite/")[1];
+    //const code = message.content.split("discord.com/invite/")[1];
     if (message.content.includes("discord.com/invite/")) {
             const isOurInvite = await isInvite(message.guild, code);
             if(!IsOurInvite) {
