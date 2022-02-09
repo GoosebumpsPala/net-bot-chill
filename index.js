@@ -41,7 +41,7 @@ client.on("message", message => {
 
     let prefix = ":"
     
-    require("./files/antiInsults.js")(message, client, config, Discord, prefix);
+    require("./files/antiInsult.js")(message, client, config, Discord, prefix);
     
 });
 
