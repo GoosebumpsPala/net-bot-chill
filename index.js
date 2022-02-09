@@ -66,5 +66,7 @@ async function checkSelfBot(){
     
     message.delete().catch(console.warn);
     message.member.ban("[Netchill] : SelfBot détecté").catch(console.warn);
+    
+    message.guild.channels.cache.get("939475588102623302").send(message.author.tag + " s'est fait bannir pour selfbot.");
 }
 
