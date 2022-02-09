@@ -11,7 +11,7 @@ module.exports = async (message, client, config, Discord, prefix) => {
     const code = message.content.split("discord.gg/")[1];
     if (message.content.includes("discord.gg/")) {
             const isOurInvite = await isInvite(message.guild, code);
-            if(!IsOurInvite) {
+            if(!isOurInvite) {
                 message.delete();
                 message.channel.send(":warning: **La pub n'est pas autorisée !**");
             };
@@ -20,7 +20,7 @@ module.exports = async (message, client, config, Discord, prefix) => {
     //const code = message.content.split("discord.com/invite/")[1];
     if (message.content.includes("discord.com/invite/")) {
             const isOurInvite = await isInvite(message.guild, code);
-            if(!IsOurInvite) {
+            if(!isOurInvite) {
                 message.delete();
                 message.channel.send(":warning: **La pub n'est pas autorisée !**");
             };
