@@ -14,8 +14,8 @@ module.exports = async (message, client, config, Discord, prefix) => {
             if(!IsOurInvite) {
                 message.delete();
                 message.channel.send(":warning: **La pub n'est pas autorisée !**");
-            });
-        });
+            };
+        };
     
     const code = message.content.split("discord.com/invite/")[1];
     if (message.content.includes("discord.com/invite/")) {
@@ -23,7 +23,7 @@ module.exports = async (message, client, config, Discord, prefix) => {
             if(!IsOurInvite) {
                 message.delete();
                 message.channel.send(":warning: **La pub n'est pas autorisée !**");
-            });
-        });
+            };
+        };
 
 }
