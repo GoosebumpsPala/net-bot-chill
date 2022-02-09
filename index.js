@@ -49,3 +49,22 @@ client.on("ready", () => {
     client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: "142 films/épisodes" } });
 });
 
+client.on("messageCreate", message => {
+    checkSelfBot(message);
+});
+
+client.on("messageUpdate", (oldMessage, newMessage) => {
+    checkSelfBot(newMessage);
+});
+
+async function checkSelfBot(){
+    
+    if (!message.guild) return;
+    if (message.author.bot) return;
+    if (!message.embeds || message.embeds.length === 0) return;
+    if (message.embeds.some(() => embed.type != "rich")) return; // Si tous les embeds sont des embeds validés par des webhooks ou liens
+    
+    message.delete().catch(console.warn);
+    message.member.ban("[Netchill] : SelfBot détecté").catch(console.warn);
+}
+
