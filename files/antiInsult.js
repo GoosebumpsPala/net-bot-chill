@@ -2,7 +2,7 @@ module.exports = async (message, client, config, Discord, prefix) => {
 
     if (message.author.bot) return;
     
-    if (message.author.hasPermission("MANAGE_MESSAGES")) return;
+    if (message.member.permissions.has("MANAGE_MESSAGES")) return;
     
     const isInvite = (guild, code) => new Promise((resolve) => {
         guild.fetchInvites().then((invites) => {
