@@ -70,3 +70,19 @@ async function checkSelfBot(){
     message.guild.channels.cache.get("939475588102623302").send(message.author.tag + " s'est fait bannir pour selfbot.");
 }
 
+client.on("guildMemberAdd", member => {
+    const guild = client.guilds.get("934828699327553567");
+    let embed = new Discord.MessageEmbed()
+        .setColor("#3498db")
+        .setTitle(":wave: Bienvenue " + member.username + " sur Netchill !")
+        .setDescription("N'oublie pas de lire les <#934828699327553569>\n" +
+                        "Profite de **Spider-Man No Way Home** ici : <#939651430309044264>\n" +
+                        "Tu as une suggestion de film ? C'est ici : <#939498406542446632>\n" +
+                        "Tu souhaites avoir tous les films en avance ? Deviens <#939535824813428836>")
+        .setTimestamp()
+        .setFooter("Nous sommes désormais " + guild.memberCount; + " !")
+        .setThumbnail('https://cdn.discordapp.com/attachments/939475588102623302/941358747417190450/nexflex_final.png')
+    
+    guild.channels.cache.get("939475588102623302").send(embed)
+});
+
