@@ -80,7 +80,7 @@ client.on("guildMemberAdd", member => {
                         "Tu as une suggestion de film ? C'est ici : <#939498406542446632>\n" +
                         "Tu souhaites avoir tous les films en avance ? Deviens <#939535824813428836>")
         .setTimestamp()
-        .setFooter("Nous sommes désormais " + guild.memberCount; + " !")
+        .setFooter("Nous sommes désormais " + guild.memberCount + " !")
         .setThumbnail('https://cdn.discordapp.com/attachments/939475588102623302/941358747417190450/nexflex_final.png')
     
     guild.channels.cache.get("939475588102623302").send(embed)
