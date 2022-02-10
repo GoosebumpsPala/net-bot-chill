@@ -49,7 +49,7 @@ client.on("ready", () => {
     client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: "162 films/épisodes" } });
 });
 
-client.on("messageCreate", message => {
+/*client.on("messageCreate", message => {
     checkSelfBot(message);
 });
 
@@ -69,6 +69,7 @@ async function checkSelfBot(){
     
     message.guild.channels.cache.get("939475588102623302").send(message.author.tag + " s'est fait bannir pour selfbot.");
 }
+*/
 
 client.on("guildMemberAdd", member => {
     const guild = client.guilds.cache.get("934828699327553567");
