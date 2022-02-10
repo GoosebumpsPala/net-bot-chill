@@ -75,7 +75,7 @@ client.on("guildMemberAdd", member => {
     const guild = client.guilds.cache.get("934828699327553567");
     let embed = new Discord.MessageEmbed()
         .setColor("#3498db")
-        .setTitle(":wave: Bienvenue " + member.username + " sur Netchill !")
+        .setTitle(":wave: Bienvenue " + member.user.username + " sur Netchill !")
         .setDescription("N'oublie pas de lire les <#934828699327553569>\n" +
                         "Profite de **Spider-Man No Way Home** ici : <#939651430309044264>\n" +
                         "Tu as une suggestion de film ? C'est ici : <#939498406542446632>\n" +
