@@ -46,7 +46,7 @@ client.on("message", message => {
 });
 
 client.on("ready", () => {
-    client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: "142 films/épisodes" } });
+    client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: "162 films/épisodes" } });
 });
 
 client.on("messageCreate", message => {
