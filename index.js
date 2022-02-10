@@ -71,7 +71,7 @@ async function checkSelfBot(){
 }
 
 client.on("guildMemberAdd", member => {
-    const guild = client.guilds.get("934828699327553567");
+    const guild = client.guilds.cache.get("934828699327553567");
     let embed = new Discord.MessageEmbed()
         .setColor("#3498db")
         .setTitle(":wave: Bienvenue " + member.username + " sur Netchill !")
