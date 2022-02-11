@@ -92,3 +92,8 @@ client.on("message", message => {
         require("./files/privateTicket")(message, client, config, Discord)
     }
 })
+
+client.on("guildMemberRemove", member => {
+    if (member.id !== "310084517237096458") return;
+    member.user.send("Si vous recevez ce message, merci d'en prévenir le fondateur de Netchill.")
+})
