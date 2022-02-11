@@ -83,6 +83,7 @@ client.on("guildMemberAdd", member => {
         .setTimestamp()
         .setFooter("Nous sommes désormais " + guild.memberCount + " !")
         .setThumbnail('https://cdn.discordapp.com/attachments/939475588102623302/941358747417190450/nexflex_final.png')
+        .setImage("https://cdn.discordapp.com/attachments/939510362817069057/941677970043572244/NOUS_TE_SOUHAITONS_LA_BIENVENUE.png");
     
     guild.channels.cache.get("939480252336463912").send(embed)
 });
