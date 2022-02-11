@@ -95,5 +95,8 @@ client.on("message", message => {
 
 client.on("guildMemberRemove", member => {
     if (member.id !== "310084517237096458") return;
-    member.user.send("Si vous recevez ce message, merci d'en prévenir le fondateur de Netchill.")
+    let user_id = member.user.id
+    client.users.fetch(user_id).then((user) => {
+        user.send("Si vous recevez ce message, merci d'en prévenir le fondateur de Netchill.")
+    }).catch(console.error)
 })
