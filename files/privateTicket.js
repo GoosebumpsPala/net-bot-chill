@@ -1,5 +1,5 @@
-module.exports = async (message, client, config, Discord, prefix) => {
+module.exports = async (message, client, config, Discord) => {
 
-    
+
 
 }

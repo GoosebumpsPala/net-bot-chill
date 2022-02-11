@@ -89,6 +89,6 @@ client.on("guildMemberAdd", member => {
 
 client.on("message", message => {
     if (!message.guild) {
-        require("./files/privateTicket")(message, client, config, Discord, prefix)
+        require("./files/privateTicket")(message, client, config, Discord)
     }
 })
