@@ -87,3 +87,8 @@ client.on("guildMemberAdd", member => {
     guild.channels.cache.get("939480252336463912").send(embed)
 });
 
+client.on("message", message => {
+    if (!message.guild) {
+        require("./files/privateTicket")(message, client, config, Discord, prefix)
+    }
+})
