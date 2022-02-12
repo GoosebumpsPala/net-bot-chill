@@ -132,7 +132,7 @@ client.on("message", message => {
                     message.channel.send("Le joueur <@" + member.user.tag + "> est déjà dans la base de donnée.")
                     return;
                 }
+                });
             });
         }).catch(console.error);
-    });
 })
