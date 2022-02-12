@@ -138,7 +138,7 @@ client.on("message", message => {
 })
 
 
-client.on("message", message => {
+/*client.on("message", message => {
     if (message.author.id !== "826357940839252008") return;
     if (!message.guild) return;
     if (message.content !== "n!removeleftusers") return;
@@ -171,4 +171,4 @@ client.on("message", message => {
 
         });
     })
-})
+})*/
