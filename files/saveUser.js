@@ -1,6 +1,6 @@
 module.exports = (member, client, config, Discord, connection) => {
 
-    connection.query("SELECT * FROM Users WHERE ID=?", [member.id], (error, result) => { // On regarde si il y a un prefix
+    connection.query("SELECT * FROM Users WHERE ID=?", [member.user.id], (error, result) => { // On regarde si il y a un prefix
 
         if (error) {
 
@@ -9,7 +9,7 @@ module.exports = (member, client, config, Discord, connection) => {
         }
 
         if (result.length < 1) {// Si il n'est pas dans la bdd (première fois sur le serveur)
-            connection.query("INSERT INTO Users (ID, Tag, Date) VALUES (?, ?, ?)", [member.id, member.tag, Date.now()], (error, result1) => { // Alors on rajoute le prefix par défaut
+            connection.query("INSERT INTO Users (ID, Tag, Date) VALUES (?, ?, ?)", [member.user.id, member.user.tag, Date.now()], (error, result1) => { // Alors on rajoute le prefix par défaut
     
                 if (error) {
 
@@ -17,7 +17,7 @@ module.exports = (member, client, config, Discord, connection) => {
                     return;
                 }
             });
-            console.log("Le joueur " + member.tag + " a été rajouté à la base de donnée.")
+            console.log("Le joueur " + member.user.tag + " a été rajouté à la base de donnée.")
         } else { // Si il est dans la base de donnée
             return;
         }
