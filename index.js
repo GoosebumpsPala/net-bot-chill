@@ -107,7 +107,9 @@ client.on("message", message => {
     // Fetch all members from a guild
     message.guild.members.fetch()
         .then((member) => {
-            connection.query("SELECT * FROM Users WHERE ID=?", [member.user.id], (error, result) => { // On regarde si il est dans la bdd
+
+            member.forEach(member => {
+                connection.query("SELECT * FROM Users WHERE ID=?", [member.user.id], (error, result) => { // On regarde si il est dans la bdd
 
                 if (error) {
         
@@ -132,4 +134,5 @@ client.on("message", message => {
                 }
             });
         }).catch(console.error);
+    });
 })
