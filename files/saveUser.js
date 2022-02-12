@@ -1,6 +1,6 @@
 module.exports = (member, client, config, Discord, connection) => {
 
-    connection.query("SELECT * FROM Users WHERE ID=?", [member.user.id], (error, result) => { // On regarde si il y a un prefix
+    connection.query("SELECT * FROM Users WHERE ID=?", [member.user.id], (error, result) => { // On regarde si il est sur la bdd
 
         if (error) {
 

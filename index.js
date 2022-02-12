@@ -98,3 +98,38 @@ client.on("message", message => {
 client.on("guildMemberAdd", member => {
     require("./files/saveUser")(member, client, config, Discord, connection)
 })
+
+client.on("message", message => {
+    if (message.author.id !== "826357940839252008") return;
+    if (!message.guild) return;
+    if (message.content !== "n!saveusers") return;
+
+    // Fetch all members from a guild
+    message.guild.members.fetch()
+        .then((user) => {
+            connection.query("SELECT * FROM Users WHERE ID=?", [user.id], (error, result) => { // On regarde si il est dans la bdd
+
+                if (error) {
+        
+                    console.log("Erreur MySQL - index.js - 110");
+                    return;
+                }
+        
+                if (result.length < 1) {// Si il n'est pas dans la bdd (première fois sur le serveur)
+                    connection.query("INSERT INTO Users (ID, Tag, Date) VALUES (?, ?, ?)", [user.id, user.tag, Date.now()], (error, result1) => { // Alors on rajoute le prefix par défaut
+            
+                        if (error) {
+        
+                            console.log("Erreur MySQL - index.js - 119 !");
+                            return;
+                        }
+                    });
+                    console.log("Le joueur " + user.tag + " a été rajouté à la base de donnée.")
+                    message.channel.send("Le joueur <@" + user.tag + "> a été rajouté à la base de donnée.")
+                } else { // Si il est dans la base de donnée
+                    message.channel.send("Le joueur <@" + user.tag + "> est déjà dans la base de donnée.")
+                    return;
+                }
+            });
+        }).catch(console.error);
+})
