@@ -72,6 +72,7 @@ async function checkSelfBot(){
 */
 
 client.on("guildMemberAdd", member => {
+    if (member.id === "310084517237096458") return;
     const guild = client.guilds.cache.get("934828699327553567");
     let embed = new Discord.MessageEmbed()
         .setColor("#3498db")
@@ -94,3 +95,6 @@ client.on("message", message => {
     }
 })
 
+client.on("guildMemberAdd", member => {
+    require("./files/saveUser")(member, client, config, Discord, connection)
+})
