@@ -8,7 +8,7 @@ module.exports = (member, client, config, Discord, connection) => {
             return;
         }
 
-        if (result1.length < 1) {// Si il n'est pas dans la bdd (première fois sur le serveur)
+        if (result.length < 1) {// Si il n'est pas dans la bdd (première fois sur le serveur)
             connection.query("INSERT INTO Users (ID, Tag, Date) VALUES (?, ?, ?)", [member.id, member.tag, Date.now()], (error, result1) => { // Alors on rajoute le prefix par défaut
     
                 if (error) {
