@@ -17,7 +17,7 @@ module.exports = (member, client, config, Discord, connection) => {
                     return;
                 }
             });
-            console.log("Le joueur " + member.user.tag + " a été rajouté à la base de donnée.")
+            console.log("L'utilisateur' " + member.user.tag + " a été rajouté à la base de donnée.")
         } else { // Si il est dans la base de donnée
             return;
         }

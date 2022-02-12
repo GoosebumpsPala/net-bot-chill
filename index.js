@@ -126,10 +126,10 @@ client.on("message", message => {
                             return;
                         }
                     });
-                    console.log("Le joueur " + member.user.tag + " a été rajouté à la base de donnée.")
-                    message.channel.send(":white_check_mark: Le joueur <@" + member.user.id + "> a été rajouté à la base de donnée.")
+                    console.log("L'utilisateur' " + member.user.tag + " a été rajouté à la base de donnée.")
+                    message.channel.send(":white_check_mark: L'utilisateur' <@" + member.user.id + "> a été rajouté à la base de donnée.")
                 } else { // Si il est dans la base de donnée
-                    message.channel.send(":x: Le joueur <@" + member.user.id + "> est déjà dans la base de donnée.")
+                    message.channel.send(":x: L'utilisateur' <@" + member.user.id + "> est déjà dans la base de donnée.")
                     return;
                 }
                 });
