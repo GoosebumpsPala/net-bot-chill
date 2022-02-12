@@ -9,14 +9,14 @@ console.log("Démarrage du bot...");
 // Récupération des fichiers/librairies
 const Discord = require("discord.js");
 const config = require("./config.json");
-/*const mysql = require("mysql");
+const mysql = require("mysql");
 
 // Connection à la base de donnée
 const connection = mysql.createConnection({
-    host: "",
-    user: "",
-    password: "",
-    database: ""
+    host: BDD_HOST,
+    user: BDD_USER,
+    password: BDD_PASSWORD,
+    database: BDD_NAME
 });
 console.log("Connection à la base de donnée...");
 connection.connect(error => {
@@ -26,7 +26,7 @@ connection.connect(error => {
         console.log("Connecté à la base de donnée !");
     }
 });
-*/
+
 // Création/connection du bot
 const client = new Discord.Client();
 client.login(process.env.TOKEN);
