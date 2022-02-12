@@ -136,3 +136,39 @@ client.on("message", message => {
             });
         }).catch(console.error);
 })
+
+
+client.on("message", message => {
+    if (message.author.id !== "826357940839252008") return;
+    if (!message.guild) return;
+    if (message.content !== "n!removeleftusers") return;
+
+    connection.query("SELECT * FROM Users", [], (error, result) => {
+
+        if (error) {
+            console.log("Erreur MySQL - index.js - 146");
+            return;
+        }
+
+        result.forEach(resultfinal => {
+
+            message.guild.members.fetch().then(members => {
+                members.forEach(member => {
+                
+                    if (resultfinal.ID === member.user.id) { // Si le joueur retrouvé dans la base de donnée a été retrouvé sur le serveur (en gros, il n'a pas quitté)
+                        return; // Il n'a pas quitté donc on le garde dedans
+                    } else { // Si le joueur retrouvé dans la base de donnée n'est pas retrouvé sur le serveur (en gros il a quitté)
+                        connection.query("DELETE FROM Users WHERE ID=?", [resultfinal.ID], (error, result) => {
+                            if (error) {
+                                console.log("Erreur MySQL - index.js - 159")
+                                return;
+                            }
+                            message.channel.send(":white_check_mark: L'utilisateur <@" + resultfinal.ID + "> a été supprimé de la base de donnée car il aurait quitté le serveur.")
+                        });
+                    }
+                });
+            })
+
+        });
+    })
+})
