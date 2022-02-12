@@ -13,10 +13,10 @@ const mysql = require("mysql");
 
 // Connection à la base de donnée
 const connection = mysql.createConnection({
-    host: BDD_HOST,
-    user: BDD_USER,
-    password: BDD_PASSWORD,
-    database: BDD_NAME
+    host: process.env.BDD_HOST,
+    user: process.env.BDD_USER,
+    password: process.env.BDD_PASSWORD,
+    database: process.env.BDD_NAME
 });
 console.log("Connection à la base de donnée...");
 connection.connect(error => {
