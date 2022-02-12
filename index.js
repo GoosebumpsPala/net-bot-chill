@@ -106,8 +106,8 @@ client.on("message", message => {
 
     // Fetch all members from a guild
     message.guild.members.fetch()
-        .then((user) => {
-            connection.query("SELECT * FROM Users WHERE ID=?", [user.user.id], (error, result) => { // On regarde si il est dans la bdd
+        .then((member) => {
+            connection.query("SELECT * FROM Users WHERE ID=?", [member.user.id], (error, result) => { // On regarde si il est dans la bdd
 
                 if (error) {
         
@@ -116,7 +116,7 @@ client.on("message", message => {
                 }
         
                 if (result.length < 1) {// Si il n'est pas dans la bdd (première fois sur le serveur)
-                    connection.query("INSERT INTO Users (ID, Tag, Date) VALUES (?, ?, ?)", [user.user.id, user.user.tag, Date.now()], (error, result1) => { // Alors on rajoute le prefix par défaut
+                    connection.query("INSERT INTO Users (ID, Tag, Date) VALUES (?, ?, ?)", [member.user.id, member.user.tag, Date.now()], (error, result1) => { // Alors on rajoute le prefix par défaut
             
                         if (error) {
         
@@ -124,10 +124,10 @@ client.on("message", message => {
                             return;
                         }
                     });
-                    console.log("Le joueur " + user.user.tag + " a été rajouté à la base de donnée.")
-                    message.channel.send("Le joueur <@" + user.user.tag + "> a été rajouté à la base de donnée.")
+                    console.log("Le joueur " + member.user.tag + " a été rajouté à la base de donnée.")
+                    message.channel.send("Le joueur <@" + member.user.tag + "> a été rajouté à la base de donnée.")
                 } else { // Si il est dans la base de donnée
-                    message.channel.send("Le joueur <@" + user.user.tag + "> est déjà dans la base de donnée.")
+                    message.channel.send("Le joueur <@" + member.user.tag + "> est déjà dans la base de donnée.")
                     return;
                 }
             });
