@@ -305,7 +305,7 @@ client.on("message", async message =>  {
     }
 })
 
-client.on("messageReactionAdd", (reaction, user) => {
+client.on("messageReactionAdd", async (reaction, user) => {
     //Ignore if the react author is a bot
     if (user.bot) {
         return
