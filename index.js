@@ -183,7 +183,7 @@ client.on("message", message => {
         const guild = client.guilds.cache.find(g => g.id === "934828699327553567")
 
         let categorie = guild.channels.cache.find(c => c.name == "Support technique" && c.type == "category");
-        if (!categorie) categorie = await guild.channels.create("Support technique MP", { type: "category", position: 5 }).catch(e => { return console.error(e) });
+        if (!categorie) categorie = guild.channels.create("Support technique MP", { type: "category", position: 5 }).catch(e => { return console.error(e) });
 
         const supportRole = guild.roles.cache.find(r => r.id === `939476196440289310`);
 
@@ -255,7 +255,7 @@ client.on("message", message => {
         if (message.channel.name.endsWith("-mp")) {
             const msg = message.content
 
-            const user = await client.users.fetch(`${message.channel.topic}`)
+            const user = client.users.fetch(`${message.channel.topic}`)
 
             const e = new Discord.MessageEmbed()
             .setTitle("Support - Nouvelle réponse")
@@ -278,7 +278,7 @@ client.on("message", message => {
             
             message.channel.send(e2)
 
-            await user.send(e)
+            user.send(e)
             .then(msg => {
                 msg.react("📥")
             })
@@ -317,14 +317,14 @@ client.on("messageReactionAdd", (reaction, user) => {
         //Close a ticket if the channel name ends with -mp
         if (reaction.emoji.name === "🔒") {
             if (message.channel.name.endsWith("-mp")) {
-                const user = await client.users.fetch(`${message.channel.topic}`);
+                const user = client.users.fetch(`${message.channel.topic}`);
                 
                 const e = new Discord.MessageEmbed()
                 .setTitle("Support - Ticket fermé")
                 .setColor("#3498db")
                 .setDescription(`Ton ticket a été fermé par le support.`)
 
-                await user.send(e);
+                user.send(e);
 
                 message.channel.delete();
             }
