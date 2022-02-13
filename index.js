@@ -255,7 +255,7 @@ client.on("message", async message =>  {
         if (message.channel.name.endsWith("-mp")) {
             const msg = message.content
 
-            const user = client.users.fetch(`${message.channel.topic}`)
+            const user = await client.users.fetch(`${message.channel.topic}`)
 
             const e = new Discord.MessageEmbed()
             .setTitle("Support - Nouvelle réponse")
