@@ -180,7 +180,7 @@ client.on("voiceStateUpdate", (oldState, newState) => {
     //IGNORE BUT DONT DELETE!
     let oldparentname = "unknown"
     let oldchannelname = "unknown"
-    let oldchanelid = "unknown"
+    let oldchanelid = "942397107376111636"
     if (oldState && oldState.channel && oldState.channel.parent && oldState.channel.parent.name) oldparentname = oldState.channel.parent.name
     if (oldState && oldState.channel && oldState.channel.name) oldchannelname = oldState.channel.name
     if (oldState && oldState.channelID) oldchanelid = oldState.channelID
