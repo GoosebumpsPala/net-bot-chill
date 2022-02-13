@@ -209,6 +209,7 @@ client.on("message", async message =>  {
                 .setDescription(`Mention: <@${message.author.id}>\nUtilisateur: ${message.author.tag}\nID: ${message.author.id}`)
                 .setFooter("Merci de cliquer sur 🔒 pour fermer le ticket.")
                 .addField("Le message :", msg)
+                .setThumbnail(message.author.avatarURL)
 
                 if (message.attachments.size > 0) {
                     e.setImage(message.attachments.first().attachment)
@@ -240,6 +241,7 @@ client.on("message", async message =>  {
             .setTitle("Support - Nouveau message")
             .setColor("#3498db")
             .addField("Le message :", msg)
+            .setThumbnail(message.author.avatarURL)
 
             if (message.attachments.size > 0) {
                 e.setImage(message.attachments.first().attachment)
@@ -260,6 +262,7 @@ client.on("message", async message =>  {
             const e = new Discord.MessageEmbed()
             .setTitle("Support - Nouvelle réponse")
             .setColor("#3498db")
+            .setThumbnail(message.author.avatarURL)
             .addField(`${message.author.tag}`, msg)
 
             const e2 = new Discord.MessageEmbed()
@@ -323,6 +326,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
                 .setTitle("Support - Ticket fermé")
                 .setColor("#3498db")
                 .setDescription(`Ton ticket a été fermé par le support.`)
+                .setTimestamp()
 
                 await user.send(e);
 
