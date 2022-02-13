@@ -8,7 +8,6 @@ console.log("Démarrage du bot...");
 
 // Récupération des fichiers/librairies
 const Discord = require("discord.js");
-const config = require("./config.json");
 const mysql = require("mysql");
 
 // Connection à la base de donnée
