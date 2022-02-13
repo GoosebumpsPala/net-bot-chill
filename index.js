@@ -28,7 +28,9 @@ connection.connect(error => {
 });
 
 // Création/connection du bot
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
+const config = require("./config.json");
+client.config = config;
 client.login(process.env.TOKEN);
 client.cooldowns = new Discord.Collection();
 
@@ -173,104 +175,163 @@ client.on("message", message => {
     })
 })*/
 
-const jointocreatemap = new Map();
-//voice state update event to check joining/leaving channels
-client.on("voiceStateUpdate", (oldState, newState) => {
-    // SET CHANNEL NAME STRING
-    //IGNORE BUT DONT DELETE!
-    let oldparentname = "unknown"
-    let oldchannelname = "unknown"
-    let oldchanelid = "942397107376111636"
-    if (oldState && oldState.channel && oldState.channel.parent && oldState.channel.parent.name) oldparentname = oldState.channel.parent.name
-    if (oldState && oldState.channel && oldState.channel.name) oldchannelname = oldState.channel.name
-    if (oldState && oldState.channelID) oldchanelid = oldState.channelID
-    let newparentname = "unknown"
-    let newchannelname = "unknown"
-    let newchanelid = "unknown"
-    if (newState && newState.channel && newState.channel.parent && newState.channel.parent.name) newparentname = newState.channel.parent.name
-    if (newState && newState.channel && newState.channel.name) newchannelname = newState.channel.name
-    if (newState && newState.channelID) newchanelid = newState.channelID
-    if (oldState.channelID) {
-        if (typeof oldState.channel.parent !== "undefined")  oldChannelName = `${oldparentname}\n\t**${oldchannelname}**\n*${oldchanelid}*`
-         else  oldChannelName = `-\n\t**${oldparentname}**\n*${oldchanelid}*`
-    }
-    if (newState.channelID) {
-        if (typeof newState.channel.parent !== "undefined") newChannelName = `${newparentname}\n\t**${newchannelname}**\n*${newchanelid}*`
-        else newChannelName = `-\n\t**${newchannelname}**\n*${newchanelid}*`
-    }
-    // JOINED V12
-    if (!oldState.channelID && newState.channelID) {
-      if(newState.channelID !== config.JOINTOCREATECHANNEL) return;  //if its not the jointocreatechannel skip
-      jointocreatechannel(newState);   //load the function
-    }
-    // LEFT V12
-    if (oldState.channelID && !newState.channelID) {
-              //get the jointocreatechannel id from the map
-            if (jointocreatemap.get(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`)) {
-              //fetch it from the guild
-              var vc = oldState.guild.channels.cache.get(jointocreatemap.get(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`));
-              //if the channel size is below one
-              if (vc.members.size < 1) { 
-                //delete it from the map
-                jointocreatemap.delete(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`); 
-                //log that it is deleted
-                console.log(" :: " + oldState.member.user.username + "#" + oldState.member.user.discriminator + " :: Room wurde gelöscht")
-                //delete the voice channel
-                return vc.delete(); 
-            }
-              else {
-              }
-            }
-    }
-    // Switch v12
-    if (oldState.channelID && newState.channelID) {
-    
-      if (oldState.channelID !== newState.channelID) {
-        //if its the join to create channel
-        if(newState.channelID===config.JOINTOCREATECHANNEL) 
-        //make a new channel
-        jointocreatechannel(oldState);  
-        //BUT if its also a channel ín the map (temp voice channel)
-        if (jointocreatemap.get(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`)) {
-          //fetch the channel
-          var vc = oldState.guild.channels.cache.get(jointocreatemap.get(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`));
-          //if the size is under 1
-          if (vc.members.size < 1) { 
-            //delete it from the map
-            jointocreatemap.delete(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`); 
-           //log it 
-            console.log(" :: " + oldState.member.user.username + "#" + oldState.member.user.discriminator + " :: Room wurde gelöscht")
-          //delete the room
-            return vc.delete(); 
+
+
+client.on("message", message => {
+    if (message.author.bot) return;
+    if (message.channel.type === "dm") {
+        const msg = message.content;
+        const guild = client.guilds.cache.find(g => g.id === "934828699327553567")
+
+        let categorie = guild.channels.cache.find(c => c.name == "Support technique" && c.type == "category");
+        if (!categorie) categorie = await guild.channels.create("Support technique MP", { type: "category", position: 5 }).catch(e => { return console.error(e) });
+
+        const supportRole = guild.roles.cache.find(r => r.id === `939476196440289310`);
+
+        if (!guild.channels.cache.find(c => c.topic === `${message.author.id}`)) {
+            guild.channels.create(`${message.author.discriminator}-mp`, {
+                permissionOverwrites: [
+                    {
+                        deny: 'VIEW_CHANNEL',
+                        id: guild.id
+                    },
+                    {
+                        allow: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
+                        id: supportRole.id
+                    },
+                ],
+                parent: categorie.id,
+                topic: `${message.author.id}`
+            })
+            .then(ch => {
+                const e = new Discord.MessageEmbed()
+                .setTitle("Support - Un ticket a été ouvert")
+                .setColor("#3498db")
+                .setDescription(`Mention: <@${message.author.id}>\nUtilisateur: ${message.author.tag}\nID: ${message.author.id}`)
+                .setFooter("Merci de cliquer sur 🔒 pour fermer le ticket.")
+                .addField("Le message :", msg)
+
+                if (message.attachments.size > 0) {
+                    e.setImage(message.attachments.first().attachment)
+                }
+                else {
+                    e.setImage(null)
+                }
+
+                const z = new Discord.MessageEmbed()
+                    .setColor('#3498db')
+                    .setDescription('Votre message a été envoyé au support. Nous répondrons sous peu.')
+                    .setFooter("Merci de ne pas envoyer plusieurs fois le même message.")
+                    .setTimestamp();
+
+                
+                message.author.send(z);
+
+                ch.send(e)
+                .then(msg => {
+                    msg.react("🔒");
+                    msg.pin({ reason: "Nouveau Ticket MP" });
+                })
+            })
         }
         else {
+            const channelTicket = guild.channels.cache.find(c => c.topic === `${message.author.id}`)
+
+            const e = new Discord.MessageEmbed()
+            .setTitle("Support - Nouveau message")
+            .setColor("#3498db")
+            .addField("Le message :", msg)
+
+            if (message.attachments.size > 0) {
+                e.setImage(message.attachments.first().attachment)
+            }
+            else {
+                e.setImage(null)
+            }
+
+            channelTicket.send(e)
         }
+    }
+    else {
+        if (message.channel.name.endsWith("-mp")) {
+            const msg = message.content
+
+            const user = await client.users.fetch(`${message.channel.topic}`)
+
+            const e = new Discord.MessageEmbed()
+            .setTitle("Support - Nouvelle réponse")
+            .setColor("#3498db")
+            .addField(`${message.author.tag}`, msg)
+
+            const e2 = new Discord.MessageEmbed()
+            .setTitle(message.author.tag)
+            .setColor("#3498db")
+            .setDescription(msg)
+
+            if (message.attachments.size > 0) {
+                e.setImage(message.attachments.first().attachment)
+                e2.setImage(message.attachments.first().attachment)
+            }
+            else {
+                e.setImage(null)
+                e2.setImage(null)
+            }
+            
+            message.channel.send(e2)
+
+            await user.send(e)
+            .then(msg => {
+                msg.react("📥")
+            })
+
+            message.delete()
         }
-      }
-  }
-    })
-      async function jointocreatechannel(user) {
-        //log it 
-        console.log(" :: " + user.member.user.username + "#" + user.member.user.discriminator + " :: a créé un salon privé.")
-        //user.member.user.send("This can be used to message the member that a new room was created")
-        await user.guild.channels.create(`Salon de ${user.member.user.username}`, {
-          type: 'voice',
-          parent: user.channel.parent.id, //or set it as a category id
-        }).then(async vc => {
-          //move user to the new channel
-          user.setChannel(vc);
-          //set the new channel to the map
-          jointocreatemap.set(`tempvoicechannel_${vc.guild.id}_${vc.id}`, vc.id);
-          //change the permissions of the channel
-          await vc.overwritePermissions([
-            {
-              id: user.id,
-              allow: ['MANAGE_CHANNELS'],
-            },
-            {
-              id: user.guild.id,
-              allow: ['VIEW_CHANNEL'],
-            },
-          ]);
-        })
-      }
+        else {
+            //Ignore message starting with not prefix
+            if (message.content.indexOf(client.config.prefix) !== 0) return;
+  
+            //Define args and command
+            const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
+            const command = args.shift().toLowerCase();
+  
+            //Get the command
+            const cmd = client.commands.get(command);
+  
+            //If the bot doesn't have the command
+            if (!cmd) return;
+  
+            //Run the command
+            cmd.run(client, message, args);
+        }
+    }
+})
+
+client.on("messageReactionAdd", (reaction, user) => {
+    //Ignore if the react author is a bot
+    if (user.bot) {
+        return
+    }
+    else {
+        //Get message frome reaction (reaction.message => message)
+        const { message } = reaction
+
+        //Close a ticket if the channel name ends with -mp
+        if (reaction.emoji.name === "🔒") {
+            if (message.channel.name.endsWith("-mp")) {
+                const user = await client.users.fetch(`${message.channel.topic}`);
+                
+                const e = new Discord.MessageEmbed()
+                .setTitle("Support - Ticket fermé")
+                .setColor("#3498db")
+                .setDescription(`Ton ticket a été fermé par le support.`)
+
+                await user.send(e);
+
+                message.channel.delete();
+            }
+            else {
+                return;
+            }
+        }
+    }
+})
