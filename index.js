@@ -173,6 +173,8 @@ client.on("message", message => {
     })
 })*/
 
+const { Collection } = require('discord.js');
+const voiceCollection = new Collection();
 
 client.on('voiceStateUpdate', (oldState, newState) => {
     const user = client.users.fetch(newState.id)
