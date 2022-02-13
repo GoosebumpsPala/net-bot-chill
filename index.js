@@ -324,7 +324,7 @@ client.on("messageReactionAdd", (reaction, user) => {
                 .setColor("#3498db")
                 .setDescription(`Ton ticket a été fermé par le support.`)
 
-                user.send(e);
+                await user.send(e);
 
                 message.channel.delete();
             }
