@@ -317,7 +317,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
         //Close a ticket if the channel name ends with -mp
         if (reaction.emoji.name === "🔒") {
             if (message.channel.name.endsWith("-mp")) {
-                const user = client.users.fetch(`${message.channel.topic}`);
+                const user = await client.users.fetch(`${message.channel.topic}`);
                 
                 const e = new Discord.MessageEmbed()
                 .setTitle("Support - Ticket fermé")
