@@ -237,7 +237,7 @@ client.on("message", async message =>  {
         else {
             const channelTicket = guild.channels.cache.find(c => c.topic === `${message.author.id}`)
 
-            if (!msg) {
+            if (msg.content === null) {
                 msg = "Il se peut que la personne ai voulu envoyé une image sans texte à côté."
             }
 
