@@ -326,7 +326,7 @@ client.on("message", async message =>  {
             message.delete()
         }
         else {
-            //Ignore message starting with not prefix
+            /*//Ignore message starting with not prefix
             if (message.content.indexOf(client.config.prefix) !== 0) return;
   
             //Define args and command
@@ -341,6 +341,8 @@ client.on("message", async message =>  {
   
             //Run the command
             cmd.run(client, message, args);
+            */
+           return;
         }
     }
 })
