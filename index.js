@@ -47,8 +47,41 @@ client.on("message", message => {
 });
 
 client.on("ready", () => {
-    client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: "220 films/épisodes" } });
+    connection.query("SELECT * FROM Variables WHERE Name=?", ["films"], (error, result) => {
+        if (error) return console.log(error);
+        client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: result[0].Value + " films/épisodes" } });
+    });
 });
+
+client.on("message", message => {
+    if (member.id !== "826357940839252008") return;
+    if (member.bot) return;
+    let args = message.content.split(" ");
+
+    if (args[0].toLowerCase() !== "n!setfilms") return;
+
+    let films = args[1]
+
+    if (!films) {
+        message.channel.send("Veuillez préciser le nombre de films !")
+    
+    } else {
+
+        connection.query("UPDATE Variables SET Value=? WHERE Name=?", [films, "films"], (error, result) => {
+
+            if (error) {
+
+                console.log("Erreur MySQL - index.js - 70 - \"UPDATE Variables SET Value=? WHERE Name=?\" !");
+                return;
+            }
+
+            message.channel.send("Le statut a été modifié !");
+            client.user.setPresence({ status: "online", activity: { type: "WATCHING", name: films + " films/épisodes" } });
+        });
+
+    }
+
+})
 
 /*client.on("messageCreate", message => {
     checkSelfBot(message);
@@ -114,7 +147,7 @@ client.on("message", message => {
 
                 if (error) {
         
-                    console.log("Erreur MySQL - index.js - 110");
+                    console.log("Erreur MySQL - index.js - 146");
                     return;
                 }
         
@@ -123,7 +156,7 @@ client.on("message", message => {
             
                         if (error) {
         
-                            console.log("Erreur MySQL - index.js - 119 !");
+                            console.log("Erreur MySQL - index.js - 155 !");
                             return;
                         }
                     });
