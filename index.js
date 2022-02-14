@@ -54,8 +54,8 @@ client.on("ready", () => {
 });
 
 client.on("message", message => {
-    if (member.id !== "826357940839252008") return;
-    if (member.bot) return;
+    if (message.author.id !== "826357940839252008") return;
+    if (message.author.bot) return;
     let args = message.content.split(" ");
 
     if (args[0].toLowerCase() !== "n!setfilms") return;
