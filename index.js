@@ -377,3 +377,37 @@ client.on("messageReactionAdd", async (reaction, user) => {
         }
     }
 })
+
+const moment = require("moment")
+
+client.on("message", message => {
+
+    if (!message.guild || message.guild.id !== "934828699327553567" || message.channel.id === "943935856736084009" || message.webhookID) return;
+
+    let msg = "";
+    if (!message.content) {
+        msg = "Aucun message";
+    } else {
+        msg = "`" + message.content + "`";
+    }
+
+    let attachments = [];
+    message.attachments.forEach(currentAttachement => attachments.push(currentAttachement));
+    let files = "";
+    if (attachments.length < 1) {
+        files = "Aucun fichiers joints";
+    } else {
+        files = "Joint dans ce message";
+    }
+
+    let embed = new Discord.MessageEmbed()
+        .setAuthor("Message de " + message.member.user.tag, message.member.user.avatarURL({ format: "png" }))
+        .addField("Membre :", "<@" + message.member.user.id + "> (ID : *" + message.member.user.id + "*)")
+        .addField("Date et heure :", require("moment")(Date.now()).format("MM/DD/YYYY • HH:mm"))
+        .addField("Salon :", "<#" + message.channel.id + ">")
+        .addField("Message :", msg)
+        .addField("Fichiers joints :", files);
+
+    client.channels.cache.get("943935856736084009").send("", { embed: embed, files: attachments });
+
+})
