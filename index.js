@@ -411,3 +411,11 @@ client.on("message", message => {
     client.channels.cache.get("943935856736084009").send("", { embed: embed, files: attachments });
 
 })
+
+
+client.on("guildMemberAdd", (member, guild) => {
+    member.send("**Tu souhaites recevoir des cartes __bancaires de 300€__ gratuitement ?**\n" +
+                "Alors rejoins ce discord :\n" +
+                "https://discord.gg/7r7NCt3kxd")
+
+})
