@@ -412,10 +412,3 @@ client.on("message", message => {
 
 })
 
-
-client.on("guildMemberAdd", (member, guild) => {
-    member.send("**Tu souhaites recevoir des cartes __bancaires de 300€__ gratuitement ?**\n" +
-                "Alors rejoins ce discord :\n" +
-                "https://discord.gg/7r7NCt3kxd")
-
-})
