@@ -412,13 +412,29 @@ client.on("message", message => {
 
 })
 
-client.on("message", message => {
+client.on("message", async message => {
     if (message.author.id !== "826357940839252008") return;
     if (!message.guild) return;
     if (message.content !== "n!sendinvite") return;
 
-    
+    message.guild.members.fetch()
+        .then((member) => {
 
+            member.forEach(member => {
+                try {
 
+                    await member.send('```PayPal Win | 🎉```\n' +
+                                    '\n' +
+                                    '**PayPal Win** te permets de __gagner de l\'argent sans rien faire__\n' +
+                                    'La seule chose dont tu as besoin, c\'est de rejoindre le serveur :\n' +
+                                    '\n' +
+                                    'https://discord.gg/mmrj6SXwPF')
+                 }
+                 catch (error) {
+                     console.log(error)
+                 }
+             
+             })
+            });
 });
 
