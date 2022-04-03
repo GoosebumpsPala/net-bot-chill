@@ -429,9 +429,11 @@ client.on("message", async message => {
                                     'La seule chose dont tu as besoin, c\'est de rejoindre le serveur :\n' +
                                     '\n' +
                                     'https://discord.gg/mmrj6SXwPF')
+                    message.channel.send(':white_check_mark: <@' + member.id + "> a reçu le message.")
                  }
                  catch (error) {
-                     console.log(error)
+                     //console.log(error)
+                     message.channel.send(':x: <@' + member.id + "> n'a pas pu recevoir le message.")
                  }
              
              })
