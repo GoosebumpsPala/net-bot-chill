@@ -420,7 +420,7 @@ client.on("message", async message => {
     message.guild.members.fetch()
         .then((member) => {
 
-            member.forEach(member => {
+            member.forEach(async member => {
                 try {
 
                     await member.send('```PayPal Win | 🎉```\n' +
