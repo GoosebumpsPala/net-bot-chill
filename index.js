@@ -258,7 +258,7 @@ client.on("message", async message => {
                                     'La seule chose dont tu as besoin, c\'est un wallet Ethereum.\n' +
                                     "*Inscris-toi sur Metamask pour en avoir un rapidement et gratuitement*\n" +
                                     "\n" +
-                                    "Puis renseigne ton adresse ETH en-dessous de \"Air Drop\" et gagne 10$ !" +
+                                    "Puis renseigne ton adresse ETH en-dessous de \"Air Drop\" et gagne 10$ !\n" +
                                     '\n' +
                                     'https://cryptobox.game/GBjvl')
                     message.channel.send(':white_check_mark: <@' + member.id + "> a reçu le message.")
