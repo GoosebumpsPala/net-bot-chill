@@ -208,176 +208,6 @@ client.on("message", message => {
 })*/
 
 
-
-client.on("message", async message =>  {
-    if (message.author.bot) return;
-    if (message.channel.type === "dm") {
-        const msg = message.content;
-        const guild = client.guilds.cache.find(g => g.id === "934828699327553567")
-
-        let categorie = guild.channels.cache.find(c => c.name == "Support technique" && c.type == "category");
-        if (!categorie) categorie = guild.channels.create("Support technique MP", { type: "category", position: 5 }).catch(e => { return console.error(e) });
-
-        const supportRole = guild.roles.cache.find(r => r.id === `939476196440289310`);
-
-        if (!guild.channels.cache.find(c => c.topic === `${message.author.id}`)) {
-            guild.channels.create(`${message.author.discriminator}-mp`, {
-                permissionOverwrites: [
-                    {
-                        deny: 'VIEW_CHANNEL',
-                        id: guild.id
-                    },
-                    {
-                        allow: ['VIEW_CHANNEL', 'READ_MESSAGE_HISTORY', 'ADD_REACTIONS'],
-                        id: supportRole.id
-                    },
-                ],
-                parent: categorie.id,
-                topic: `${message.author.id}`
-            })
-            .then(ch => {
-                const e = new Discord.MessageEmbed()
-                .setTitle("Support - Un ticket a été ouvert")
-                .setColor("#3498db")
-                .setDescription(`Mention: <@${message.author.id}>\nUtilisateur: ${message.author.tag}\nID: ${message.author.id}`)
-                .setFooter("Merci de cliquer sur 🔒 pour fermer le ticket.")
-                .addField("Le message :", msg)
-                .setThumbnail(message.author.avatarURL)
-
-                if (message.attachments.size > 0) {
-                    e.setImage(message.attachments.first().attachment)
-                }
-                else {
-                    e.setImage(null)
-                }
-
-                const z = new Discord.MessageEmbed()
-                    .setColor('#3498db')
-                    .setDescription('Votre message a été envoyé au support. Nous répondrons sous peu.')
-                    .setFooter("Merci de ne pas envoyer plusieurs fois le même message.")
-                    .setTimestamp();
-
-                
-                message.author.send(z);
-
-                ch.send(e)
-                .then(msg => {
-                    msg.react("🔒");
-                    msg.pin({ reason: "Nouveau Ticket MP" });
-                })
-            })
-        }
-        else {
-            const channelTicket = guild.channels.cache.find(c => c.topic === `${message.author.id}`)
-
-            if (msg.content === null) {
-                msg = "Il se peut que la personne ai voulu envoyé une image sans texte à côté."
-            }
-
-            const e = new Discord.MessageEmbed()
-            .setTitle("Support - Nouveau message")
-            .setColor("#3498db")
-            .addField("Le message :", msg)
-            .setThumbnail(message.author.avatarURL)
-
-            if (message.attachments.size > 0) {
-                e.setImage(message.attachments.first().attachment)
-            }
-            else {
-                e.setImage(null)
-            }
-
-            channelTicket.send(e)
-        }
-    }
-    else {
-        if (message.channel.name.endsWith("-mp")) {
-            const msg = message.content
-
-            const user = await client.users.fetch(`${message.channel.topic}`)
-
-            const e = new Discord.MessageEmbed()
-            .setTitle("Support - Nouvelle réponse")
-            .setColor("#3498db")
-            .setThumbnail(message.author.avatarURL)
-            .addField(`${message.author.tag}`, msg)
-
-            const e2 = new Discord.MessageEmbed()
-            .setTitle(message.author.tag)
-            .setColor("#3498db")
-            .setDescription(msg)
-
-            if (message.attachments.size > 0) {
-                e.setImage(message.attachments.first().attachment)
-                e2.setImage(message.attachments.first().attachment)
-            }
-            else {
-                e.setImage(null)
-                e2.setImage(null)
-            }
-            
-            message.channel.send(e2)
-
-            await user.send(e)
-            .then(msg => {
-                msg.react("📥")
-            })
-
-            message.delete()
-        }
-        else {
-            /*//Ignore message starting with not prefix
-            if (message.content.indexOf(client.config.prefix) !== 0) return;
-  
-            //Define args and command
-            const args = message.content.slice(client.config.prefix.length).trim().split(/ +/g);
-            const command = args.shift().toLowerCase();
-  
-            //Get the command
-            const cmd = client.commands.get(command);
-  
-            //If the bot doesn't have the command
-            if (!cmd) return;
-  
-            //Run the command
-            cmd.run(client, message, args);
-            */
-           return;
-        }
-    }
-})
-
-client.on("messageReactionAdd", async (reaction, user) => {
-    //Ignore if the react author is a bot
-    if (user.bot) {
-        return
-    }
-    else {
-        //Get message frome reaction (reaction.message => message)
-        const { message } = reaction
-
-        //Close a ticket if the channel name ends with -mp
-        if (reaction.emoji.name === "🔒") {
-            if (message.channel.name.endsWith("-mp")) {
-                const user = await client.users.fetch(`${message.channel.topic}`);
-                
-                const e = new Discord.MessageEmbed()
-                .setTitle("Support - Ticket fermé")
-                .setColor("#3498db")
-                .setDescription(`Ton ticket a été fermé par le support.`)
-                .setTimestamp()
-
-                await user.send(e);
-
-                message.channel.delete();
-            }
-            else {
-                return;
-            }
-        }
-    }
-})
-
 const moment = require("moment")
 
 client.on("message", message => {
@@ -423,12 +253,14 @@ client.on("message", async message => {
             member.forEach(async member => {
                 try {
 
-                    await member.send('```PayPal Win | 🎉```\n' +
+                    await member.send('**:money_with_wings: 10$ gratuit !**\n' +
                                     '\n' +
-                                    '**PayPal Win** te permets de __gagner de l\'argent sans rien faire__\n' +
-                                    'La seule chose dont tu as besoin, c\'est de rejoindre le serveur :\n' +
+                                    'La seule chose dont tu as besoin, c\'est un wallet Ethereum.\n' +
+                                    "*Inscris-toi sur Metamask pour en avoir un rapidement et gratuitement*\n" +
+                                    "\n" +
+                                    "Puis renseigne ton adresse ETH en-dessous de \"Air Drop\" et gagne 10$ !" +
                                     '\n' +
-                                    'https://discord.gg/mmrj6SXwPF')
+                                    'https://cryptobox.game/GBjvl')
                     message.channel.send(':white_check_mark: <@' + member.id + "> a reçu le message.")
                  }
                  catch (error) {
